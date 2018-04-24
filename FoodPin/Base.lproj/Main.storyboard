@@ -6,10 +6,11 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Restaurants-->
+        <!--Foodpin-->
         <scene sceneID="MPs-2b-EYG">
             <objects>
                 <tableViewController id="8o7-OK-paR" customClass="RestaurantTableViewController" customModule="FoodPin" customModuleProvider="target" sceneMemberID="viewController">
@@ -89,6 +90,7 @@
                                     <outlet property="selectImage" destination="TlZ-Sq-6iv" id="Gs3-Xb-fq3"/>
                                     <outlet property="thumbnailImageView" destination="oXg-QP-sjt" id="7HJ-RT-zdh"/>
                                     <outlet property="typeLabel" destination="CS3-qz-oBL" id="eli-S8-Ud6"/>
+                                    <segue destination="g2r-l9-G2U" kind="show" identifier="Detail" id="QW3-lN-sZ5"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -97,11 +99,73 @@
                             <outlet property="delegate" destination="8o7-OK-paR" id="2gp-RZ-Gki"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Restaurants" id="iJ4-Wk-8Pc"/>
+                    <navigationItem key="navigationItem" title="Foodpin" id="iJ4-Wk-8Pc"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eqA-0b-gq1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1052.1739130434783" y="160.59782608695653"/>
+            <point key="canvasLocation" x="994" y="161"/>
+        </scene>
+        <!--Detail View Controller-->
+        <scene sceneID="Zsz-DO-jbO">
+            <objects>
+                <viewController id="g2r-l9-G2U" customClass="DetailViewController" customModule="FoodPin" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Tfh-b2-cOO">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="barrafina" translatesAutoresizingMaskIntoConstraints="NO" id="7U0-Yh-0U3">
+                                <rect key="frame" x="0.0" y="64" width="414" height="672"/>
+                            </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="x6c-Fg-ovh">
+                                <rect key="frame" x="194" y="566" width="200" height="150"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3l6-JL-MoG">
+                                        <rect key="frame" x="0.0" y="0.0" width="200" height="50"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OIc-TH-Dvu">
+                                        <rect key="frame" x="0.0" y="50" width="200" height="50"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0vJ-Iq-luS">
+                                        <rect key="frame" x="0.0" y="100" width="200" height="50"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="EQH-8T-g4K"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="uT0-ne-ybg" firstAttribute="trailing" secondItem="x6c-Fg-ovh" secondAttribute="trailing" constant="20" id="Eg1-2y-Jgs"/>
+                            <constraint firstItem="uT0-ne-ybg" firstAttribute="bottom" secondItem="x6c-Fg-ovh" secondAttribute="bottom" constant="20" id="Heq-CG-0e8"/>
+                            <constraint firstItem="uT0-ne-ybg" firstAttribute="trailing" secondItem="7U0-Yh-0U3" secondAttribute="trailing" id="OLa-7A-HwP"/>
+                            <constraint firstItem="uT0-ne-ybg" firstAttribute="bottom" secondItem="7U0-Yh-0U3" secondAttribute="bottom" id="Wpj-Lp-8Xm"/>
+                            <constraint firstItem="7U0-Yh-0U3" firstAttribute="leading" secondItem="uT0-ne-ybg" secondAttribute="leading" id="gHK-7E-0Ar"/>
+                            <constraint firstItem="7U0-Yh-0U3" firstAttribute="top" secondItem="uT0-ne-ybg" secondAttribute="top" id="rij-vM-ZyC"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="uT0-ne-ybg"/>
+                    </view>
+                    <connections>
+                        <outlet property="ResImage" destination="7U0-Yh-0U3" id="TYI-5L-w8u"/>
+                        <outlet property="ResLocation" destination="OIc-TH-Dvu" id="Mln-5e-1nB"/>
+                        <outlet property="ResName" destination="3l6-JL-MoG" id="d6F-sM-ZaM"/>
+                        <outlet property="ResType" destination="0vJ-Iq-luS" id="rqU-WS-dLI"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Gp0-nM-PRW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1742" y="161"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="tB2-xs-rNq">
@@ -123,6 +187,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="barrafina" width="426" height="426"/>
         <image name="hearttick" width="22" height="21"/>
     </resources>
 </document>
