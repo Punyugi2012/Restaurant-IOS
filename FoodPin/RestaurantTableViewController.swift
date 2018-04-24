@@ -17,38 +17,39 @@ class RestaurantTableViewController: UITableViewController {
     var restaurantLocations = ["Hong Kong", "Hong Kong", "Hong Kong", "Hong Kong", "Hong Kong", "Hong Kong", "Hong Kong", "Sydney", "Sydney", "Sydney", "New York", "New York", "New York", "New York", "New York", "New York", "New York", "London", "London", "London", "London"]
     
     var restaurantTypes = ["Coffee & Tea Shop", "Cafe", "Tea House", "Austrian / Causual Drink", "French", "Bakery", "Bakery", "Chocolate", "Cafe", "American / Seafood", "American", "American", "Breakfast & Brunch", "Coffee & Tea", "Coffee & Tea", "Latin American", "Spanish", "Spanish", "Spanish", "British", "Thai"]
+    
     var restaurantIsVisited: [Bool] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         restaurantIsVisited = Array(repeating: false, count: self.restaurantNames.count)
-        self.navigationItem.rightBarButtonItem = self.editButtonItem
+//        self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+      
     }
 
-    // MARK: - Table view data source
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        let oldName = self.restaurantNames.remove(at: sourceIndexPath.row)
-        let oldImage = self.restaurantImages.remove(at: sourceIndexPath.row)
-        let oldLoca = self.restaurantLocations.remove(at: sourceIndexPath.row)
-        let oldType = self.restaurantTypes.remove(at: sourceIndexPath.row)
-        let oldVisited = self.restaurantIsVisited.remove(at: sourceIndexPath.row)
-        self.restaurantNames.insert(oldName, at: destinationIndexPath.row)
-        self.restaurantImages.insert(oldImage, at: destinationIndexPath.row)
-        self.restaurantLocations.insert(oldLoca, at: destinationIndexPath.row)
-        self.restaurantTypes.insert(oldType, at: destinationIndexPath.row)
-        self.restaurantIsVisited.insert(oldVisited, at: destinationIndexPath.row)
-    }
+ 
+//    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+//        return true
+//    }
+//    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+//        return true
+//    }
+//    override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+//        let oldName = self.restaurantNames.remove(at: sourceIndexPath.row)
+//        let oldImage = self.restaurantImages.remove(at: sourceIndexPath.row)
+//        let oldLoca = self.restaurantLocations.remove(at: sourceIndexPath.row)
+//        let oldType = self.restaurantTypes.remove(at: sourceIndexPath.row)
+//        let oldVisited = self.restaurantIsVisited.remove(at: sourceIndexPath.row)
+//        self.restaurantNames.insert(oldName, at: destinationIndexPath.row)
+//        self.restaurantImages.insert(oldImage, at: destinationIndexPath.row)
+//        self.restaurantLocations.insert(oldLoca, at: destinationIndexPath.row)
+//        self.restaurantTypes.insert(oldType, at: destinationIndexPath.row)
+//        self.restaurantIsVisited.insert(oldVisited, at: destinationIndexPath.row)
+//    }
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -56,22 +57,82 @@ class RestaurantTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return restaurantNames.count
     }
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
+    
+//    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+//        if editingStyle == .delete {
+//            self.restaurantNames.remove(at: indexPath.row)
+//            self.restaurantImages.remove(at: indexPath.row)
+//            self.restaurantLocations.remove(at: indexPath.row)
+//            self.restaurantTypes.remove(at: indexPath.row)
+//            self.restaurantIsVisited.remove(at: indexPath.row)
+//            tableView.deleteRows(at: [indexPath], with: .none)
+//        }
+//    }
+    
+    
+    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let cell = tableView.cellForRow(at: indexPath)! as! RestaurantTableViewCell
+        let action: UIContextualAction
+        if self.restaurantIsVisited[indexPath.row] == true {
+            action = UIContextualAction(style: .normal, title: "Undo") { (action, sourceView, completeHandler) in
+                cell.selectImage.image = nil
+                self.restaurantIsVisited[indexPath.row] = false
+                completeHandler(true)
+            }
+            action.image = UIImage(named: "undo")
+        }
+        else {
+            action = UIContextualAction(style: .normal, title: "Checkin") { (action, sourceView, completeHandler) in
+                cell.selectImage.image = UIImage(named: "hearttick")
+                self.restaurantIsVisited[indexPath.row] = true
+                completeHandler(true)
+            }
+            action.image = UIImage(named: "tick")
+        }
+        action.backgroundColor = UIColor(red: 109.0/255.0, green: 192.0/255.0, blue: 102.0/255.0, alpha: 1.0)
+        return UISwipeActionsConfiguration(actions: [action])
+    }
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        //delete
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { (action, sourceView, completeHandler) in
             self.restaurantNames.remove(at: indexPath.row)
             self.restaurantImages.remove(at: indexPath.row)
             self.restaurantLocations.remove(at: indexPath.row)
             self.restaurantTypes.remove(at: indexPath.row)
             self.restaurantIsVisited.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .none)
+            completeHandler(true)
         }
+        deleteAction.image = UIImage(named: "delete")
+        deleteAction.backgroundColor = UIColor(red: 231.0/255.0, green: 76.0/255.0, blue: 60.0/255.0, alpha: 1.0)
+        
+        //share
+        let shareAction = UIContextualAction(style: .normal, title: "Share") { (action, sourceView, completeHandler) in
+            let defaultText = "Just checking in at" + self.restaurantNames[indexPath.row]
+            let activityController: UIActivityViewController
+            if let imageToShare = UIImage(named: self.restaurantImages[indexPath.row]) {
+                activityController = UIActivityViewController(activityItems: [defaultText, imageToShare], applicationActivities: nil)
+            }
+            else {
+                activityController = UIActivityViewController(activityItems: [
+                    defaultText], applicationActivities: nil)
+            }
+            self.present(activityController, animated: true, completion: nil)
+            completeHandler(true)
+        }
+        shareAction.image = UIImage(named: "share")
+        shareAction.backgroundColor = UIColor(red: 254.0/255.0, green: 149.0/255.0, blue: 38.0/255.0, alpha: 1.0)
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
     }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cellIdentifier = "Cell"
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! RestaurantTableViewCell
         
-        // Configure the cell...
+    
         cell.nameLabel.text = restaurantNames[indexPath.row]
         cell.thumbnailImageView.image = UIImage(named: restaurantImages[indexPath.row])
         cell.typeLabel.text = restaurantTypes[indexPath.row]
@@ -85,6 +146,7 @@ class RestaurantTableViewController: UITableViewController {
         
         return cell
     }
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)! as! RestaurantTableViewCell
         let optionMenu = UIAlertController(title: "Menu", message: "What do you want to do?", preferredStyle: .actionSheet)
